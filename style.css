@@ -1,0 +1,87 @@
+body {
+    /* background-color: #d5ccc4; */
+    /* background-color: #fffdfe; */
+    background-color: #f0f5f7;
+    transition: background-color 1s ease;
+    overflow: hidden;
+    padding: 0px;
+    text-align: center;
+    margin: 0px auto;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    /* cursor: none; */
+}
+
+.captionWrapper {
+    width: 100%;
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 88vw;
+}
+
+#caption {
+    /* min-width: 80vw; */
+    display: inline;
+    /* color: #DC8BA8; */
+    color: #f38db2;
+    padding: 0 1vw;
+    /* opacity: 0.5; */
+    /* text-shadow: 0px 0px 0.05vw #4a2613, 0px 0px 0.26vw #4a2613; */
+    /* text-shadow: 0px 0px 0.05vw #ffffff, 0px 0px 0.26vw #ffffff; */
+
+    /* filter: drop-shadow(0 0 0.75rem darkgray); */
+
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    font-size: 5vw;
+    /* white-space: nowrap; */
+}
+
+#comments {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    text-align: left;
+    display: inline;
+}
+
+.text {
+    position: absolute;
+    display: inline;
+    text-align: left;
+    opacity: 1;
+}
+
+.italic {
+    font-style: italic;
+}
+
+mark {
+    /* font-family: 'Times New Roman', Times, serif; */
+    /* font-family: cursive; */
+    display: inline;
+    background-color: #f0f5f7;
+    /* color: inherit; */
+    color: #D9D9D9;
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    /* -webkit-text-stroke: 0.5px black; */
+}
+
+::-moz-selection {
+    /* Code for Firefox */
+    color: #f0f5f7;
+    background: #404143;
+    ;
+}
+
+::selection {
+    color: #f0f5f7;
+    background: #404143;
+}
