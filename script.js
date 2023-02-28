@@ -7,6 +7,7 @@ let currentCaptionIndex = 0;
 let div;
 let mark;
 let captionDiv = document.getElementById("caption");
+let captionsDiv = document.getElementById("captions");
 let allText = [];
 let mode = "caption";
 let width = window.innerWidth;
@@ -16,19 +17,13 @@ let typeSizeMax = 88;
 let speedMode = false;
 const originalCaptions = [...captions];
 const originalComments = [...comments];
-let settingOptions = ["commentOnly", "captionOnly"];
-let switchMode = true;
 let commentChoiceIndex = 0;
 let captionChoiceIndex = 0;
-let started = false;
 let typingTimeout;
 let captionTypingTimeout;
 let newCommentTimeout;
 let captionTimeout;
 let colorpalette = ["#f38db2", "#8799ac", "#874830", "#c28c70", "#ecac9d"];
-let currentBackgroundColor = colorpalette[Math.floor(Math.random() * colorpalette.length)];
-
-currentSetting = "captionOnly";
 captionDiv.style.display = "inline";
 document.getElementById("comments").style.display = "none";
 /* 💋 TODO
@@ -54,14 +49,14 @@ toggleModes(mode);
 
 function toggleModes(newMode) {
     if (newMode == "comment") {
-        captionDiv.style.display = "none";
+        captionsDiv.style.display = "none";
         document.getElementById("comments").style.display = "block";
         chooseNewComment();
         renderText();
         clearTimeout(captionTimeout);
         clearTimeout(captionTypingTimeout);
     } else {
-        captionDiv.style.display = "inline";
+        captionsDiv.style.display = "inline";
         document.getElementById("comments").style.display = "none";
         chooseNewCaption();
         renderText();
@@ -152,10 +147,10 @@ function chooseNewCaption() {
     currentCaptionIndex = 0;
     currentCaption = "";
     const newCaptionIndex = Math.floor(Math.random() * captions.length);
-    
+
     newCaption = captions[newCaptionIndex].replaceAll('.', '').replaceAll(',', '');
     captions.splice(newCaptionIndex, 1);
-    
+
     // If all captions have been shown, reset caption library
     if (captions.length < 1) {
         captions = [...originalCaptions];
@@ -230,6 +225,7 @@ function chooseNewComment() {
     newString = comments[newCommentIndex];
     const newFontSize = typeSizeMin + Math.random() * typeSizeMax;
 
+    console.log('newComment: ', newString);
     comments.splice(newCommentIndex, 1);
     // If all comments have been shown, reset comment library
     if (comments.length < 1) {
@@ -257,11 +253,8 @@ function chooseNewComment() {
     testDiv.style.visibility = "hidden";
     testDiv.classList.add("text");
     testDiv.id = "test";
-
     document.getElementById("comments").appendChild(testDiv);
-
     const maxHeight = testDiv.clientHeight;
-
     const divTop = randomIntFromInterval(0, height - maxHeight);
     div.style.top = divTop + "px";
     div.style.left = randomIntFromInterval(0, width - maxWidth) + "px";

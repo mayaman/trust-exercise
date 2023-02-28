@@ -19,6 +19,14 @@ body {
     max-width: 88vw;
 }
 
+#captions {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #caption {
     display: inline;
     color: #f38db2;
