@@ -11,7 +11,7 @@ let mark;
 let captionDiv = document.getElementById("caption");
 let captionsDiv = document.getElementById("captions");
 let allText = [];
-let mode = "caption";
+let mode = "comment";
 let width = window.innerWidth;
 let height = window.innerHeight;
 let typeSizeMin = 12;
