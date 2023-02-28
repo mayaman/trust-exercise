@@ -1,4 +1,3 @@
-
 let comments = [
     "the makeup didn’t do anything, that’s how pretty she is naturally, wow",
     "step 1: be incredibly gorgeous",
@@ -717,5 +716,3 @@ let comments = [
     "How can someone look so good without makeup?",
     "How easy would life be a if I looked like her😩"
 ];
-
-
