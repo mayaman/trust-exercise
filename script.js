@@ -1,3 +1,5 @@
+const originalCaptions = [...captions];
+const originalComments = [...comments];
 let newString = "";
 let newCaption = "";
 let currentCaption = "";
@@ -15,10 +17,6 @@ let height = window.innerHeight;
 let typeSizeMin = 12;
 let typeSizeMax = 88;
 let speedMode = false;
-const originalCaptions = [...captions];
-const originalComments = [...comments];
-let commentChoiceIndex = 0;
-let captionChoiceIndex = 0;
 let typingTimeout;
 let captionTypingTimeout;
 let newCommentTimeout;
@@ -26,29 +24,39 @@ let captionTimeout;
 let colorpalette = ["#f38db2", "#8799ac", "#874830", "#c28c70", "#ecac9d"];
 captionDiv.style.display = "inline";
 document.getElementById("comments").style.display = "none";
-/* 💋 TODO
-  + !!!!! Now
-  - [] Remove comment/caption once it's written, then restart once have shown all of them
-  + DONE
-  - [x] if it's a [] type it out all at once
-  - [x] Separate caption and comment modes, don't need to be intertwined
-  - [x] Find warmer color for background
-  - [x] Key pressed to toggle between views
-  - [x] Finalize color of the text
-  - [x] Fix height of comment section so doesn't go off screen
-*/
-
+console.log("*CLICK* or press *SPACE* to change channels");
 console.log("★.｡.:*☆:**:. ⓦ𝕖𝓑s𝕚𝓉𝐄 Ｂʸ 𝓶ⓐ𝐲ᗩ 𝐌𝕒𝓝 .:**:.☆*.:｡.★ ♡ www.mayaontheinter.net ♡ 萬美亞");
 console.log("https://www.youtube.com/watch?v=dntyqXZLk3g&list=PLztAHXmlMZFS9ZN7GTlZ2UOB2JmxICdt8&index=7&ab_channel=Vogue");
 console.log(comments[Math.floor(Math.random() * comments.length)]);
+console.log("GRWM 4EVER XOXOXO");
+
 window.addEventListener("resize", onWindowResize);
+document.addEventListener('keyup', event => {
+    if (event.code === 'Space') {
+        toggleModes();
+    } else if (event.code == 'KeyS') {
+        speedMode = !speedMode;
+        console.log('speed mode set to:', speedMode);
+    }
+});
+
+document.addEventListener('click', event => {
+    toggleModes();
+});
 
 setTypeSize();
+toggleModes();
 
-toggleModes(mode);
+function toggleModes() {
+    if (mode == "caption") {
+        mode = "comment";
+    } else {
+        mode = "caption";
+    }
 
-function toggleModes(newMode) {
-    if (newMode == "comment") {
+    console.log('now viewing ☆' + mode + ' channel☆');
+
+    if (mode == "comment") {
         captionsDiv.style.display = "none";
         document.getElementById("comments").style.display = "block";
         chooseNewComment();
@@ -120,113 +128,13 @@ function renderComment() {
     }
 }
 
-function renderCaption() {
-    if (currentCaptionIndex < newCaptionArray.length) {
-        if (currentCaptionIndex != 0) {
-            currentCaption = currentCaption + " " + newCaptionArray[currentCaptionIndex];
-        } else {
-            currentCaption = newCaptionArray[currentCaptionIndex];
-        }
-        captionDiv.innerText = currentCaption;
-        currentCaptionIndex++;
-        const newInterval = 111 + Math.random() * 333;
-        captionTypingTimeout = setTimeout(() => {
-            renderText();
-        }, newInterval);
-    } else {
-        chooseNewCaption();
-        const newInterval = 3333 + Math.random() * 11111;
-        captionTimeout = setTimeout(() => {
-            renderCaption();
-        }, newInterval);
-    }
-}
-
-// Choose random new caption
-function chooseNewCaption() {
-    currentCaptionIndex = 0;
-    currentCaption = "";
-    const newCaptionIndex = Math.floor(Math.random() * captions.length);
-
-    newCaption = captions[newCaptionIndex].replaceAll('.', '').replaceAll(',', '');
-    captions.splice(newCaptionIndex, 1);
-
-    // If all captions have been shown, reset caption library
-    if (captions.length < 1) {
-        captions = [...originalCaptions];
-    }
-
-    const maxCaptionLength = 86;
-    while (newCaption.length > maxCaptionLength) {
-        newCaption = captions[Math.floor(Math.random() * captions.length)].replaceAll('.', '').replaceAll(',', '');
-    }
-
-    newCaption = newCaption.toLowerCase();
-    newCaption = newCaption.replaceAll(/\bi\b/g, "I"); // Only an isolated I should be uppercase
-    newCaption = newCaption.replaceAll(/i'/g, "I'");
-
-    const doubleLineLength = 43;
-
-    if (isAudioDescription(newCaption)) {
-        // [Audio description]
-        newCaptionArray = [newCaption];
-    } else {
-        newCaptionArray = newCaption.split(" ");
-        // console.log(audioPop(newCaptionArray));
-        newCaptionArray = audioPop(newCaptionArray);
-        if (newCaption.length >= doubleLineLength) {
-            const halfCaptionIndex = Math.floor(newCaptionArray.length * .47);
-            newCaptionArray[halfCaptionIndex] = newCaptionArray[halfCaptionIndex] + "\n";
-        }
-    }
-}
-
-// TO DO
-function audioPop(array) {
-    let newArray = [];
-    // let descriptionIndex = -1;
-    let description = "";
-    let describing = false;
-
-    for (let i = 0; i < array.length; i++) {
-        let currentWord = array[i];
-        if (currentWord.indexOf("[") > -1) {
-            description += currentWord;
-            describing = true;
-        } else if (describing) {
-            description = description + " " + currentWord;
-            if (currentWord.indexOf("]") > -1) {
-                describing = false;
-                newArray.push(description);
-                description = "";
-            }
-        } else {
-            newArray.push(currentWord);
-        }
-    }
-    return newArray;
-}
-
-function isAudioDescription(caption) {
-    const leftBracketIndex = caption.indexOf("[");
-    const rightBracketIndex = caption.indexOf("]");
-
-    if (leftBracketIndex == 0 && rightBracketIndex == caption.length - 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// Choose random new comment
 function chooseNewComment() {
 
     const newCommentIndex = Math.floor(Math.random() * comments.length);
     newString = comments[newCommentIndex];
     const newFontSize = typeSizeMin + Math.random() * typeSizeMax;
-
-    console.log('newComment: ', newString);
     comments.splice(newCommentIndex, 1);
+
     // If all comments have been shown, reset comment library
     if (comments.length < 1) {
         comments = originalComments;
@@ -235,7 +143,7 @@ function chooseNewComment() {
     div = document.createElement("div");
     div.classList.add("text");
 
-    let maxWidth = this.randomIntFromInterval(
+    let maxWidth = randomIntFromInterval(
         newFontSize * 13,
         newFontSize * 22
     );
@@ -282,25 +190,107 @@ function chooseNewComment() {
     }
 }
 
-
-function randomBool(percentChanceTrue) {
-    return (Math.random() < percentChanceTrue);
+function renderCaption() {
+    if (currentCaptionIndex < newCaptionArray.length) {
+        if (currentCaptionIndex != 0) {
+            currentCaption = currentCaption + " " + newCaptionArray[currentCaptionIndex];
+        } else {
+            currentCaption = newCaptionArray[currentCaptionIndex];
+        }
+        captionDiv.innerText = currentCaption;
+        currentCaptionIndex++;
+        const newInterval = 111 + Math.random() * 333;
+        captionTypingTimeout = setTimeout(() => {
+            renderText();
+        }, newInterval);
+    } else {
+        chooseNewCaption();
+        const newInterval = 3333 + Math.random() * 11111;
+        captionTimeout = setTimeout(() => {
+            renderCaption();
+        }, newInterval);
+    }
 }
 
-document.addEventListener('keyup', event => {
-    if (event.code === 'Space') {
-        if (mode == "caption") {
-            mode = "comment";
-        } else {
-            mode = "caption";
-        }
-        toggleModes(mode);
-        console.log('MODE RESET TO: ', mode);
-    } else if (event.code == 'KeyS') {
-        speedMode = !speedMode;
-        console.log('speed mode: ', speedMode);
+function chooseNewCaption() {
+    currentCaptionIndex = 0;
+    currentCaption = "";
+    const newCaptionIndex = Math.floor(Math.random() * captions.length);
+
+    newCaption = captions[newCaptionIndex].replaceAll('.', '').replaceAll(',', '');
+    captions.splice(newCaptionIndex, 1);
+
+    // If all captions have been shown, reset caption library
+    if (captions.length < 1) {
+        captions = [...originalCaptions];
     }
-});
+
+    const maxCaptionLength = 86;
+    while (newCaption.length > maxCaptionLength) {
+        newCaption = captions[Math.floor(Math.random() * captions.length)].replaceAll('.', '').replaceAll(',', '');
+    }
+
+    newCaption = newCaption.toLowerCase();
+    newCaption = newCaption.replaceAll(/\bi\b/g, "I"); // Only an isolated I should be uppercase
+    newCaption = newCaption.replaceAll(/i'/g, "I'");
+
+    const doubleLineLength = 43;
+
+    if (isAudioDescription(newCaption)) {
+        // [Audio description]
+        newCaptionArray = [newCaption];
+    } else {
+        newCaptionArray = newCaption.split(" ");
+        // console.log(audioPop(newCaptionArray));
+        newCaptionArray = audioPop(newCaptionArray);
+        if (newCaption.length >= doubleLineLength) {
+            const halfCaptionIndex = Math.floor(newCaptionArray.length * .47);
+            newCaptionArray[halfCaptionIndex] = newCaptionArray[halfCaptionIndex] + "\n";
+        }
+    }
+}
+
+/* 
+* Treat multi word sound description (eg [blows kiss])
+* as a single word in array of words
+*/
+function audioPop(array) {
+    let newArray = [];
+    let description = "";
+    let describing = false;
+
+    for (let i = 0; i < array.length; i++) {
+        let currentWord = array[i];
+        if (currentWord.indexOf("[") > -1) {
+            description += currentWord;
+            describing = true;
+        } else if (describing) {
+            description = description + " " + currentWord;
+            if (currentWord.indexOf("]") > -1) {
+                describing = false;
+                newArray.push(description);
+                description = "";
+            }
+        } else {
+            newArray.push(currentWord);
+        }
+    }
+    return newArray;
+}
+
+/* 
+* Check if is audio description (eg [upbeat music])
+*/
+function isAudioDescription(caption) {
+    const leftBracketIndex = caption.indexOf("[");
+    const rightBracketIndex = caption.indexOf("]");
+
+    if (leftBracketIndex == 0 && rightBracketIndex == caption.length - 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function randomIntFromInterval(min, max) {
     // min and max included

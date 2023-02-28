@@ -10,6 +10,11 @@ body {
     cursor: none;
 }
 
+#instructions {
+    color: gray;
+    padding: 1vw;
+}
+
 .captionWrapper {
     width: 100%;
     position: absolute;
