@@ -7,12 +7,6 @@ body {
     margin: 0px auto;
     display: block;
     font-family: Arial, Helvetica, sans-serif;
-    cursor: none;
-}
-
-#instructions {
-    color: gray;
-    padding: 1vw;
 }
 
 .captionWrapper {
