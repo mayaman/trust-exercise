@@ -54,7 +54,7 @@ function toggleModes() {
         mode = "caption";
     }
 
-    console.log('now viewing ☆' + mode + ' channel☆');
+    console.log('☆ now viewing ' + mode + ' channel ☆');
 
     if (mode == "comment") {
         captionsDiv.style.display = "none";

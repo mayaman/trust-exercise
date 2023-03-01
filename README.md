@@ -11,5 +11,5 @@ Edition of 1, 1 AP<br>
 
 ## Notes
 
-* Press space to toggle between channels
+* CLICK or press SPACE to toggle between channels
 * Press S to speed up the comments for testing
