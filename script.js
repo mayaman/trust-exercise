@@ -59,7 +59,9 @@ function toggleModes() {
     if (mode == "comment") {
         captionsDiv.style.display = "none";
         document.getElementById("comments").style.display = "block";
-        chooseNewComment();
+        if (currentStringIndex == 0) {
+            chooseNewComment();
+        }
         renderText();
         clearTimeout(captionTimeout);
         clearTimeout(captionTypingTimeout);
